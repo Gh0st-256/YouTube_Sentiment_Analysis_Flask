@@ -121,22 +121,25 @@ def channels():
         channel_video_df = video_df[video_df['channel_id'] == channel_id]
         channel_title = channel_video_df['channel_title'].unique()[0]
         channel_titles.append(channel_title)
-        image_names.append(viz.histogram_video_duration_count_single(channel_video_df, channel_id, channel_title=channel_title))
+        image_names.append(
+            viz.histogram_video_duration_count_single(channel_video_df, channel_id, channel_title=channel_title))
         channel_video_series = channel_video_df['tags']
         wordcloud_string = ydt.concat_listelements(channel_video_series)
-        image_names.append(viz.create_wordcloud(wordcloud_string, stopwords=None, video_id=channel_id, channel_title=channel_title))
+        image_names.append(
+            viz.create_wordcloud(wordcloud_string, stopwords=None, video_id=channel_id, channel_title=channel_title))
 
     df_table = viz.top_videos(video_df, metric='view', n=5)
 
     return render_template(
         'channels.html',
-        result_dictionary = result_dictionary,
+        result_dictionary=result_dictionary,
         video_df=video_df,
         image_names=image_names,
         channel_ids=channel_ids,
         channel_titles=channel_titles,
         tables=[df_table.to_html(index=False, classes='table-stripped')],
     )
+
 
 if __name__ == '__main__':
     app.run()
